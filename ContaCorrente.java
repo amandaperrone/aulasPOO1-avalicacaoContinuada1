@@ -21,26 +21,14 @@ public class ContaCorrente {
     private String nomeCliente;
 
 
-    public double depositar(double valorDeposito) {
-        if (limiteEspecial == limiteEspecialInicial){
-            saldo += valorDeposito;
-            return saldo;
-        } else {
-            double diferencaLimites = limiteEspecialInicial - limiteEspecial;
-            if (valorDeposito >= diferencaLimites) {
-                double depositoParaEspecial = valorDeposito - diferencaLimites;
-                setLimiteEspecial(limiteEspecial + depositoParaEspecial);
-                double depositoParaSaldo = valorDeposito - depositoParaEspecial;
-                saldo += depositoParaSaldo;
-                return saldo;
-            } else {
-                double novoLimite = limiteEspecial + valorDeposito;
-                setLimiteEspecial(novoLimite);
-                return limiteEspecial;
-            }  
-        }
-        
+    public double depositar (double valorDeposito) {
+        saldo += valorDeposito;
+        return saldo;
     }
+
+    /* public double sacar(double valorSaque){
+
+    } */
 
     // TO STRING, GETTERS AND SETTER
     @Override

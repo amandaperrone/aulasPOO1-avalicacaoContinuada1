@@ -17,17 +17,16 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class TestaContaCorrente {
-    
+
+    public static ArrayList <ContaCorrente> contas = new ArrayList <ContaCorrente>(); //statico pro main ver
     public static void main(String[] args) {
 
-        ArrayList <ContaCorrente> contas = new ArrayList <ContaCorrente>();
-
         Scanner s = new Scanner(System.in);
-        ContaCorrente cc = new ContaCorrente();
+        ContaCorrente cc;
         int continuar = 1;
         int i = 1;
         double verificarLimitePositivo;
-        double limiteEspecialInicial;
+        int numeroInformado;
         
         do{
             System.out.println("-----------NOBANK-----------");
@@ -44,8 +43,9 @@ public class TestaContaCorrente {
             
             switch(opcao){
                 case 1:
-                    System.out.println("--------------------------1-");
+                    System.out.println("----------------------------");
                     System.out.println(" 1 CADASTRAR UMA NOVA CORRENTE CORRENTE ");
+                    cc = new  ContaCorrente();                    
                     cc.setNumeroConta(i);
                     System.out.println("Digite seu nome: ");
                     cc.setNomeCliente(s.nextLine());
@@ -57,48 +57,89 @@ public class TestaContaCorrente {
                         System.out.println("Digite o limite especial: ");
                         verificarLimitePositivo = Double.parseDouble(s.nextLine());
                     }
-                    cc.setLimiteEspecial(Double.parseDouble(s.nextLine()));
-                    limiteEspecialInicial = getLimiteEspecial();
-                    System.out.println("Voltar ao MENU?");
+                    cc.setLimiteEspecial(verificarLimitePositivo);
+                    System.out.println("Voltar ao MENU? (1 - Sim 2 - Não)");
                     continuar = Integer.parseInt(s.nextLine());
                     i++;
                     contas.add(cc);
-                    System.out.println("--------------------------1-");
+                    System.out.println("----------------------------");
                     break;
+
                 case 2:
-                    System.out.println("--------------------------2-");
+                    System.out.println("----------------------------");
                     System.out.println(" 2 DEPOSITAR ");
                     System.out.println("Informe o número da conta: ");
-                    int a = 3;
-                    cc.setSaldo(0.0);
-                    //pegar o numero e ver se ele tem no array
-                    if (a == 3) {
+                    numeroInformado = Integer.parseInt(s.nextLine()); 
+                    cc = pesquisaCC(numeroInformado);
+                    if (cc != null ) {
                         System.out.println("Informe o valor para depósito: ");
                         cc.depositar(Double.parseDouble(s.nextLine()));
-                        System.out.println("Saldo atual: " + getSaldo());
-                        System.out.println("Especial: " + getLimiteEspecial());
+                        System.out.println("Saldo atual: " + cc.getSaldo());
                     } else {
                         System.out.println("Conta inválida");
                     }
-                    System.out.println("Voltar ao MENU?");
+                    System.out.println("Voltar ao MENU? (1 - Sim 2 - Não)");
                     continuar = Integer.parseInt(s.nextLine());
-                    System.out.println("--------------------------2-");
+                    System.out.println("----------------------------");
                     break;
-                case 3:
-                    System.out.println("--------------------------3-");
-                    System.out.println(" 3 SAQUE ");
 
-                    System.out.println("--------------------------3-");
+                case 3:
+                    System.out.println("----------------------------");
+                    System.out.println(" 3 SAQUE ");
+                    System.out.println("Informe o número da conta: ");
+                    numeroInformado = Integer.parseInt(s.nextLine()); 
+                    cc = pesquisaCC(numeroInformado);
+                    System.out.println("Informe o valor para saque: ");
+                    double sacar = Double.parseDouble(s.nextLine());
+                    if(cc != null){
+                        if ((cc.getSaldo() - sacar) > ((cc.getLimiteEspecial())*-1)) {
+                            double novoSaldo = cc.getSaldo() - sacar;
+                            cc.setSaldo(novoSaldo);
+                            System.out.println("Saldo atual: " + cc.getSaldo());
+                        } else {
+                            System.out.println("Você não tem limite suficiente");
+                        }
+                    } else {
+                        System.out.println("Conta inválida");
+                    }
+                    System.out.println("Voltar ao MENU? (1 - Sim 2 - Não)");
+                    continuar = Integer.parseInt(s.nextLine());
+                    System.out.println("----------------------------");
                     break;
+                    
                 case 4:
-                    System.out.println("voce digitou 4");
+                    System.out.println("----------------------------");
+                    System.out.println(" 4 VER SALDO  ");
+                    System.out.println("Informe o número da conta: ");
+                    numeroInformado = Integer.parseInt(s.nextLine()); 
+                    cc = pesquisaCC(numeroInformado);
+                    if(cc != null){
+                        System.out.println("Seu saldo é de R$" + cc.getSaldo());
+                    } else {
+                        System.out.println("Conta inválida");
+                    }
+
+                    System.out.println("Voltar ao MENU? (1 - Sim 2 - Não)");
+                    continuar = Integer.parseInt(s.nextLine());
+                    System.out.println("----------------------------");
                     break;
+
                 case 5:
-                    System.out.println("voce digitou 5");
+                    System.out.println("----------------------------");
+                    System.out.println(" 5 SOMA DE TODOS OS SALDOS DE CLIENTE QUE NÃO USARAM O ESPECIAL  ");
+                    // falta aqui
+                    System.out.println("Voltar ao MENU? (1 - Sim 2 - Não)");
+                    continuar = Integer.parseInt(s.nextLine());
+                    System.out.println("----------------------------");
                     break;
+
                 case 6:
-                    System.out.println("voce digitou 6");
+                    System.out.println("----------------------------");
+                    System.out.println("--OBRIGADA POR USAR NOBANK--");
+                    System.out.println("----------------------------");
+                    continuar = 2;
                     break;
+
                 default:
                     System.out.println("OPÇÃO INVÁLIDA");
                     break;
@@ -108,4 +149,26 @@ public class TestaContaCorrente {
 
     }
     
+    public static ContaCorrente pesquisaCC (int numeroConta) {
+        //percorrer a lista, devolvendo o numero ou null
+        
+        for(int i = 0; i < contas.size(); i++){ 
+
+            ContaCorrente aux = contas.get(i);
+            if(numeroConta == aux.getNumeroConta()){
+                return contas.get(i);
+            }       
+        }
+        return null;
+
+
+        /* for (Cliente aux: clientes){ 
+            if (aux.getCodigo() == codigo){
+                return aux;
+            }
+        }       
+        return null; */
+    }
+
+
 }
