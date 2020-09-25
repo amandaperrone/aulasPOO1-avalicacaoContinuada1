@@ -9,7 +9,6 @@ Desenvolva uma aplicação que:
     O limite do especial deverá ser um valor maior ou igual a zero.
 */
 
-
 package ac1;
 
 public class ContaCorrente {
@@ -25,10 +24,6 @@ public class ContaCorrente {
         saldo += valorDeposito;
         return saldo;
     }
-
-    /* public double sacar(double valorSaque){
-
-    } */
 
     // TO STRING, GETTERS AND SETTER
     @Override
