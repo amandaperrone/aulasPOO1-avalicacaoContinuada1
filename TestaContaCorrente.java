@@ -31,11 +31,11 @@ public class TestaContaCorrente {
         do{
             System.out.println("-----------NOBANK-----------");
             System.out.println("- Digite a opção desejada -");
-            System.out.println(" 1 CADASTRAR UMA NOVA CORRENTE CORRENTE ");
+            System.out.println(" 1 CADASTRAR CORRENTE CORRENTE ");
             System.out.println(" 2 DEPOSITAR ");
             System.out.println(" 3 SAQUE ");
             System.out.println(" 4 VER SALDO ");
-            System.out.println(" 5 SOMA DE TODOS OS SALDOS DE CLIENTE QUE NÃO USARAM O ESPECIAL ");
+            System.out.println(" 5 SOMA SALDOS POSITIVOS ");
             System.out.println(" 6 SAIR ");
             System.out.println("----------------------------");
             int opcao = Integer.parseInt(s.nextLine());
@@ -44,7 +44,7 @@ public class TestaContaCorrente {
             switch(opcao){
                 case 1:
                     System.out.println("----------------------------");
-                    System.out.println(" 1 CADASTRAR UMA NOVA CORRENTE CORRENTE ");
+                    System.out.println(" 1 CADASTRAR CORRENTE CORRENTE ");
                     cc = new  ContaCorrente();                    
                     cc.setNumeroConta(i);
                     System.out.println("Digite seu nome: ");
@@ -58,7 +58,7 @@ public class TestaContaCorrente {
                         verificarLimitePositivo = Double.parseDouble(s.nextLine());
                     }
                     cc.setLimiteEspecial(verificarLimitePositivo);
-                    System.out.println("Voltar ao MENU? (1 - Sim 2 - Não)");
+                    System.out.println("Voltar ao MENU? (1-Sim 2-Não)");
                     continuar = Integer.parseInt(s.nextLine());
                     i++;
                     contas.add(cc);
@@ -78,7 +78,7 @@ public class TestaContaCorrente {
                     } else {
                         System.out.println("Conta inválida");
                     }
-                    System.out.println("Voltar ao MENU? (1 - Sim 2 - Não)");
+                    System.out.println("Voltar ao MENU? (1-Sim 2-Não)");
                     continuar = Integer.parseInt(s.nextLine());
                     System.out.println("----------------------------");
                     break;
@@ -102,7 +102,7 @@ public class TestaContaCorrente {
                     } else {
                         System.out.println("Conta inválida");
                     }
-                    System.out.println("Voltar ao MENU? (1 - Sim 2 - Não)");
+                    System.out.println("Voltar ao MENU? (1-Sim 2-Não)");
                     continuar = Integer.parseInt(s.nextLine());
                     System.out.println("----------------------------");
                     break;
@@ -119,16 +119,21 @@ public class TestaContaCorrente {
                         System.out.println("Conta inválida");
                     }
 
-                    System.out.println("Voltar ao MENU? (1 - Sim 2 - Não)");
+                    System.out.println("Voltar ao MENU? (1-Sim 2-Não)");
                     continuar = Integer.parseInt(s.nextLine());
                     System.out.println("----------------------------");
                     break;
 
                 case 5:
                     System.out.println("----------------------------");
-                    System.out.println(" 5 SOMA DE TODOS OS SALDOS DE CLIENTE QUE NÃO USARAM O ESPECIAL  ");
-                    // falta aqui
-                    System.out.println("Voltar ao MENU? (1 - Sim 2 - Não)");
+                    System.out.println(" 5 SOMA SALDOS POSITIVOS ");
+                    double somaSaldos =0;
+                    for (ContaCorrente conta : contas) {
+                        if (conta.getSaldo() > 0)
+                        somaSaldos += conta.getSaldo();
+                    }
+                    System.out.println("A soma de saldos positivos é" + somaSaldos);
+                    System.out.println("Voltar ao MENU? (1-Sim 2-Não)");
                     continuar = Integer.parseInt(s.nextLine());
                     System.out.println("----------------------------");
                     break;
@@ -161,14 +166,6 @@ public class TestaContaCorrente {
         }
         return null;
 
-
-        /* for (Cliente aux: clientes){ 
-            if (aux.getCodigo() == codigo){
-                return aux;
-            }
-        }       
-        return null; */
     }
-
 
 }
